@@ -7,7 +7,7 @@ sudo systemctl enable docker
 
 chmod 777 /var/run/docker.sock
 
-#------------------------------
+# OR permanently ---
 
 sudo groupadd docker
 
