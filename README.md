@@ -9,6 +9,8 @@ chmod 777 /var/run/docker.sock
 
 #------------------------------
 
+sudo groupadd docker
+
 sudo usermod -aG docker jenkins
 
 sudo systemctl restart jenkins
