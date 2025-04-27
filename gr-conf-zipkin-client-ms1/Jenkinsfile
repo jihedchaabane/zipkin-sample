@@ -9,7 +9,7 @@ pipeline {
         APP_PORT = '1111'
         // Chemin du module Spring Boot
         MODULE_PATH = 'gr-conf-zipkin-client-ms1'
-        ZIPKIN_CONTAINER_NAME = 'zipkin'
+		DOCKER_NETWORK = 'springboot-network'
     }
     stages {
         stage('Checkout') {
@@ -80,11 +80,9 @@ pipeline {
 		stage('Run Docker Container AND link to zipkin') {
             steps {
                 script {
-                    // Lier le conteneur de l'application au conteneur Zipkin
+                    // Lier le conteneur au --network
                     sh """
-                        docker run -d --name ${CONTAINER_NAME} -p ${APP_PORT}:${APP_PORT} \
-                            --link ${ZIPKIN_CONTAINER_NAME}:zipkin \
-                            -e SPRING_ZIPKIN_BASE_URL=http://zipkin:9411 ${DOCKER_IMAGE}
+                        docker run -d --name ${CONTAINER_NAME} --network ${DOCKER_NETWORK} -p ${APP_PORT}:${APP_PORT} ${DOCKER_IMAGE}
                     """
                 }
             }
@@ -132,10 +130,10 @@ pipeline {
     }
     post {
         success {
-            echo 'Application Spring Boot démarrée avec succès !'
+            echo 'Application SpringBoot démarrée avec succès !'
         }
         failure {
-            echo 'Échec du démarrage de l\'application.'
+            echo 'Echec du démarrage de l\'application.'
             sh """
                 docker stop ${CONTAINER_NAME} || true
                 docker rm ${CONTAINER_NAME} || true

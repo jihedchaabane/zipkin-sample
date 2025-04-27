@@ -14,8 +14,6 @@ groups jenkins
 
 #------------------------------
 
-java -jar zipkin-server-2.24.3-exec.jar \
-OR \
 docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin \
 http://localhost:9411
 
