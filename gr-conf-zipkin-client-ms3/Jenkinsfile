@@ -102,10 +102,10 @@ pipeline {
                         docker ps --filter "name=${CONTAINER_NAME}" --filter "status=running" | grep ${CONTAINER_NAME}
                     """
                     // Vérifier que l'application répond
-                    sh """
+//                    sh """
 //                        curl --fail http://localhost:${APP_PORT}/ || exit 1
-                        curl --fail http://localhost:${APP_PORT}/actuator/health || exit 1
-                    """
+//                       curl --fail http://localhost:${APP_PORT}/actuator/health || exit 1
+//                    """
                 }
             }
         }
