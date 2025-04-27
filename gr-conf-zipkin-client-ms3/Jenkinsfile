@@ -77,7 +77,7 @@ pipeline {
                 script {
                     // Vérifier que le conteneur est en cours d'exécution
                     sh """
-                        sleep 5 # Attendre que le conteneur démarre
+                        sleep 20 # Attendre que le conteneur démarre
                         docker ps --filter "name=${CONTAINER_NAME}" --filter "status=running" | grep ${CONTAINER_NAME}
                     """
                     // Vérifier que l'application répond
