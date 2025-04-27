@@ -1,13 +1,11 @@
-echo "# zipkin-sample" >> README.md
 
-git init
+sudo systemctl start jenkins
 
-git add .
+sudo systemctl start docker
+sudo systemctl enable docker
+chmod 777 /var/run/docker.sock
+#------------------------------
+sudo usermod -aG docker jenkins
+sudo systemctl restart jenkins
+groups jenkins
 
-git commit -m "first commit"
-
-git branch -M main
-
-git remote add origin https://github.com/jihedchaabane/zipkin-sample.git
-
-git push -u origin main
