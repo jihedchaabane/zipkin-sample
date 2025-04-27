@@ -87,6 +87,29 @@ pipeline {
                 }
             }
         }
+		
+//		stage('Verify Container2') {
+//			steps {
+//				script {
+//					sh """
+//						# Attendre que le conteneur soit en cours d'exécution
+//						sleep 10
+//						docker ps --filter "name=${CONTAINER_NAME}" --filter "status=running" | grep ${CONTAINER_NAME}
+//					"""
+//					sh """
+//						# Tenter la connexion plusieurs fois
+//						for i in {1..10}; do
+//							curl -v --fail http://localhost:${APP_PORT}/actuator/health && break
+//							echo "Attente de l'application... (\$i/10)"
+//							sleep 5
+//						done
+//						# Vérification finale
+//						curl --fail http://localhost:${APP_PORT}/actuator/health || exit 1
+//					"""
+//				}
+//			}
+//		}
+
     }
     post {
         success {
