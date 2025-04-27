@@ -91,47 +91,44 @@ pipeline {
 //        }
 
 
-
-		
-//        stage('Verify Container') {
-//            steps {
-//                script {
-//                    // Vérifier que le conteneur est en cours d'exécution
-//                    sh """
-//                        sleep 10 # Attendre que le conteneur démarre
-//                        docker ps --filter "name=${CONTAINER_NAME}" --filter "status=running" | grep ${CONTAINER_NAME}
-//                    """
-//                    // Vérifier que l'application répond
+        stage('Verify Container') {
+            steps {
+                script {
+                    // Vérifier que le conteneur est en cours d'exécution
+                    sh """
+                        sleep 10 # Attendre que le conteneur démarre
+                        docker ps --filter "name=${CONTAINER_NAME}" --filter "status=running" | grep ${CONTAINER_NAME}
+                    """
+                    // Vérifier que l'application répond
 //                    sh """
 //                        curl --fail http://localhost:${APP_PORT}/ || exit 1
 //                        curl --fail http://localhost:${APP_PORT}/actuator/health || exit 1
 //                    """
-//                }
-//            }
-//        }
-		stage('Verify Container2') {
-			steps {
-				script {
-					sh """
-						# Attendre que le conteneur soit en cours d'exécution
-						sleep 10
-						docker ps --filter "name=${CONTAINER_NAME}" --filter "status=running" | grep ${CONTAINER_NAME}
-					"""
-					sh """
-						# Tenter la connexion plusieurs fois
-						for i in {1..10}; do
+                }
+            }
+        }
+
+//		stage('Verify Container2') {
+//			steps {
+//				script {
+//					sh """
+//						# Attendre que le conteneur soit en cours d'exécution
+//						sleep 10
+//						docker ps --filter "name=${CONTAINER_NAME}" --filter "status=running" | grep ${CONTAINER_NAME}
+//					"""
+//					sh """
+//						# Tenter la connexion plusieurs fois
+//						for i in {1..10}; do
 //							curl -v --fail http:localhost:${APP_PORT}/actuator/health && break
-                            curl -v http:localhost:${APP_PORT}/actuator/health --fail && break
-							echo "Attente de l'application... (\$i/10)"
-							sleep 5
-						done
-						# Vérification finale
+//							echo "Attente de l'application... (\$i/10)"
+//							sleep 5
+//						done
+//						# Vérification finale
 //						curl --fail http://localhost:${APP_PORT}/actuator/health || exit 1
-                        curl http://localhost:${APP_PORT}/actuator/health --fail || exit 1
-					"""
-				}
-			}
-		}
+//					"""
+//				}
+//			}
+//		}
 
     }
     post {
