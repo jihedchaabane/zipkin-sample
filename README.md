@@ -14,7 +14,7 @@ groups jenkins
 
 #------------------------------
 
-docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin \
+Voir le fichier "Jenkinsfile_network_and_zipkin" pour zipkin & la création de network \
 http://localhost:9411
 
 sudo firewall-cmd --permanent --add-port=9411/tcp \
@@ -35,16 +35,10 @@ Configurer le job Jenkins: \
 		Si vous poussez l'image vers un registre privé (comme Docker Hub), ajoutez les identifiants dans Manage Jenkins > Manage Plugins > Credentials. \
 		Créez un identifiant de type "Username with Password" pour Docker Hub. \
 		Référencez cet identifiant dans le Jenkinsfile avec docker.withRegistry (décommentez la section correspondante). \
-#------------------------------
-
-docker run -d --name ${CONTAINER_NAME} -p ${APP_PORT}:${APP_PORT} \
-    --link ${ZIPKIN_CONTAINER_NAME}:zipkin \
-    -e SPRING_ZIPKIN_BASE_URL=http://zipkin:9411 ${DOCKER_IMAGE} \
-	
-	--link ${ZIPKIN_CONTAINER_NAME}:zipkin : Lie le conteneur de l'application au conteneur Zipkin, permettant à l'application de résoudre zipkin comme nom d'hôte. \
-	-e SPRING_ZIPKIN_BASE_URL=http://zipkin:9411 : Configure l'URL de Zipkin pour pointer vers le conteneur Zipkin sur le port 9411.
 
 #------------------------------
+
+
 
 Surveiller les performances: \
 L'intégration avec Zipkin peut générer une surcharge si votre application envoie beaucoup de traces. \

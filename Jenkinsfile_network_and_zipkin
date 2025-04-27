@@ -7,15 +7,20 @@ pipeline {
     stages {
 
         stage('Setup Network') {
-            steps {
-                script {
-                    // Créer un réseau Docker (ignore si déjà existant)
-                    sh """
-                        docker network create ${DOCKER_NETWORK} || true
-                    """
-                }
-            }
-        }
+			steps {
+				script {
+					def networkExists = sh(script: "docker network ls | grep ${DOCKER_NETWORK}", returnStatus: true) == 0
+					if (!networkExists) {
+						sh """
+							docker network create ${DOCKER_NETWORK}
+							echo "Network ${DOCKER_NETWORK} created"
+						"""
+					} else {
+						echo "Network ${DOCKER_NETWORK} already exists"
+					}
+				}
+			}
+		}
         stage('Start Zipkin') {
             steps {
                 script {
@@ -24,7 +29,8 @@ pipeline {
                         docker stop ${ZIPKIN_CONTAINER_NAME} || true
                         docker rm ${ZIPKIN_CONTAINER_NAME} || true
                     """
-                    // Démarrer Zipkin sur le réseau
+                    
+					// Démarrer Zipkin sur le réseau
                     sh """
                         docker run -d --name ${ZIPKIN_CONTAINER_NAME} --network ${DOCKER_NETWORK} -p 9411:9411 openzipkin/zipkin
                     """
@@ -40,6 +46,8 @@ pipeline {
                         docker ps --filter "name=${ZIPKIN_CONTAINER_NAME}" --filter "status=running" | grep ${ZIPKIN_CONTAINER_NAME}
                         docker logs ${ZIPKIN_CONTAINER_NAME}
                     """
+
+					// Vérifier que Zipkin est prêt
                     sh """
                         for i in {1..10}; do
                             curl -v --fail http://localhost:9411/actuator/health && break
