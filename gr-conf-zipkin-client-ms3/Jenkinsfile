@@ -101,7 +101,6 @@ pipeline {
                     """
                     // Vérifier que l'application répond
                     sh """
-//                      curl --fail http://localhost:${APP_PORT}/ || exit 1
                         curl --fail http://localhost:${APP_PORT}/actuator/health || exit 1
                     """
                 }
