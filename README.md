@@ -16,7 +16,7 @@ groups jenkins
 
 java -jar zipkin-server-2.24.3-exec.jar \
 OR \
-docker run -d -p 9411:9411 --name zipkin openzipkin/zipkin \
+docker run -d --name zipkin -p 9411:9411 openzipkin/zipkin \
 http://localhost:9411
 
 sudo firewall-cmd --permanent --add-port=9411/tcp \
