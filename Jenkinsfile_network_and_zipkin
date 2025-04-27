@@ -13,7 +13,7 @@ pipeline {
 					if (!networkExists) {
 						sh """
 							docker network create ${DOCKER_NETWORK}
-							echo "Network ${DOCKER_NETWORK} created"
+							echo "Network ${DOCKER_NETWORK} Created and Ready"
 						"""
 					} else {
 						echo "Network ${DOCKER_NETWORK} already exists"
@@ -71,7 +71,7 @@ pipeline {
 //        }
         success {
             echo 'ZIPKIN démarré avec succès !'
-			echo 'network ${DOCKER_NETWORK} démarrée avec succès !'
+			echo 'network démarrée avec succès !'
         }
         failure {
             echo 'Échec du démarrage.'
