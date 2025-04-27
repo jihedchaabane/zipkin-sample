@@ -9,8 +9,7 @@ pipeline {
         APP_PORT = '1113'
         // Chemin du module Spring Boot
         MODULE_PATH = 'gr-conf-zipkin-client-ms3'
-		
-		ZIPKIN_CONTAINER_NAME = 'zipkin'
+        ZIPKIN_CONTAINER_NAME = 'zipkin'
     }
     stages {
         stage('Checkout') {
