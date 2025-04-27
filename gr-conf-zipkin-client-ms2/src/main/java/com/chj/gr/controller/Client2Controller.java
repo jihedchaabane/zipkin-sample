@@ -13,7 +13,7 @@ public class Client2Controller {
 
     @GetMapping("/client2")
     public String client2() {
-        String response = restTemplate.getForObject("http://localhost:1113/client3", String.class);
+        String response = restTemplate.getForObject("http://container-ms3:1113/client3", String.class);
         return "Client2 -> " + response;
     }
 }
