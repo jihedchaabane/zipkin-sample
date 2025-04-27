@@ -1,0 +1,72 @@
+pipeline {
+    agent any
+    environment {
+        ZIPKIN_CONTAINER_NAME = 'zipkin'
+        DOCKER_NETWORK = 'springboot-network'
+    }
+    stages {
+
+        stage('Setup Network') {
+            steps {
+                script {
+                    // Créer un réseau Docker (ignore si déjà existant)
+                    sh """
+                        docker network create ${DOCKER_NETWORK} || true
+                    """
+                }
+            }
+        }
+        stage('Start Zipkin') {
+            steps {
+                script {
+                    // Arrêter et supprimer tout conteneur Zipkin existant
+                    sh """
+                        docker stop ${ZIPKIN_CONTAINER_NAME} || true
+                        docker rm ${ZIPKIN_CONTAINER_NAME} || true
+                    """
+                    // Démarrer Zipkin sur le réseau
+                    sh """
+                        docker run -d --name ${ZIPKIN_CONTAINER_NAME} --network ${DOCKER_NETWORK} -p 9411:9411 openzipkin/zipkin
+                    """
+                }
+            }
+        }
+
+        stage('Verify Container') {
+            steps {
+                script {
+                    sh """
+                        sleep 15
+                        docker ps --filter "name=${ZIPKIN_CONTAINER_NAME}" --filter "status=running" | grep ${ZIPKIN_CONTAINER_NAME}
+                        docker logs ${ZIPKIN_CONTAINER_NAME}
+                    """
+                    sh """
+                        for i in {1..10}; do
+                            curl -v --fail http://localhost:9411/actuator/health && break
+                            echo "Attente de l'application... (\$i/10)"
+                            sleep 5
+                        done
+                        curl -v --fail http://localhost:9411/actuator/health || exit 1
+                    """
+                }
+            }
+        }
+    }
+    post {
+        always {
+            // Nettoyer les conteneurs et le réseau
+            sh """
+                docker stop ${ZIPKIN_CONTAINER_NAME} || true
+                docker rm ${ZIPKIN_CONTAINER_NAME} || true
+                docker network rm ${DOCKER_NETWORK} || true
+            """
+        }
+        success {
+            echo 'ZIPKIN démarré avec succès !'
+			echo 'network ${DOCKER_NETWORK} démarrée avec succès !'
+        }
+        failure {
+            echo 'Échec du démarrage.'
+        }
+    }
+}
