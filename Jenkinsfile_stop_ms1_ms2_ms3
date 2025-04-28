@@ -1,13 +1,13 @@
 pipeline {
     agent any
     environment {
-        MS1_CONTAINER = 'container_ms1'
-		MS2_CONTAINER = 'container_ms2'
-		MS3_CONTAINER = 'container_ms3'
+        MS1_CONTAINER = 'container-ms1'
+		MS2_CONTAINER = 'container-ms2'
+		MS3_CONTAINER = 'container-ms3'
 		
-		MS1_IMAGE = 'gr-conf-zipkin-client-ms1:0.0.1-SNAPSHOT'
-		MS2_IMAGE = 'gr-conf-zipkin-client-ms2:0.0.1-SNAPSHOT'
-		MS3_IMAGE = 'gr-conf-zipkin-client-ms3:0.0.1-SNAPSHOT'
+		MS1_IMAGE = 'jihed123/gr-conf-zipkin-client-ms1:0.0.1-SNAPSHOT'
+		MS2_IMAGE = 'jihed123/gr-conf-zipkin-client-ms2:0.0.1-SNAPSHOT'
+		MS3_IMAGE = 'jihed123/gr-conf-zipkin-client-ms3:0.0.1-SNAPSHOT'
         
     }
     stages {
