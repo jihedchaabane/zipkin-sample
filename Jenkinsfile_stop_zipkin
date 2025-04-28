@@ -57,11 +57,7 @@ pipeline {
     }
     post {
 //        always {
-//            // Nettoyer les conteneurs et le réseau
 //            sh """
-//                docker stop ${ZIPKIN_CONTAINER_NAME} || true
-//                docker rm ${ZIPKIN_CONTAINER_NAME} || true
-//                docker network rm ${DOCKER_NETWORK} || true
 //            """
 //        }
         success {
