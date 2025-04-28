@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        COMPOSE_FILE = 'docker-compose_run_ms1_ms2_ms3.yml' // Path to docker-compose.yml
+        COMPOSE_FILE = 'zcompose/docker-compose_run_ms1_ms2_ms3.yml' // Path to docker-compose.yml
     }
     stages {
         stage('Run Docker Compose') {
