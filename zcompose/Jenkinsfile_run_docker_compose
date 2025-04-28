@@ -1,0 +1,42 @@
+pipeline {
+    agent any
+    environment {
+        COMPOSE_FILE = 'docker-compose_run_ms1_ms2_ms3.yml' // Path to docker-compose.yml
+    }
+    stages {
+        stage('Run Docker Compose') {
+            steps {
+                script {
+                    // Start services with docker-compose
+                    sh """
+                        docker-compose -f ${COMPOSE_FILE} up -d
+                    """
+                }
+            }
+        }
+////        stage('Verify Services') {
+//            steps {
+//                script {
+//                    // Optional: Verify services are running
+//                    sh """
+//                        docker-compose -f ${COMPOSE_FILE} ps
+//                        curl http://localhost:9411 || echo "Zipkin UI not accessible"
+//                        curl http://localhost:1111/actuator/health || echo "ms1 is not accessible"
+//                        curl http://localhost:1112/actuator/health || echo "ms2 is not accessible"
+//                        curl http://localhost:1113/actuator/health || echo "ms3 is not accessible"
+//                    """
+//                }
+//            }
+//        }
+    }
+    post {
+        always {
+            // Clean up: Stop and remove services
+            script {
+                sh """
+                    docker-compose -f ${COMPOSE_FILE} down || true
+                """
+            }
+        }
+    }
+}
