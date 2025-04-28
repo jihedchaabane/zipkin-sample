@@ -1,0 +1,65 @@
+pipeline {
+    agent any
+    environment {
+        MS1_CONTAINER = 'container_ms1'
+		MS2_CONTAINER = 'container_ms2'
+		MS3_CONTAINER = 'container_ms3'
+		
+		MS1_IMAGE = 'gr-conf-zipkin-client-ms1:0.0.1-SNAPSHOT'
+		MS2_IMAGE = 'gr-conf-zipkin-client-ms2:0.0.1-SNAPSHOT'
+		MS3_IMAGE = 'gr-conf-zipkin-client-ms3:0.0.1-SNAPSHOT'
+        
+    }
+    stages {
+        stage('Stop MS1_MS2_MS3 Containers ') {
+            steps {
+                script {
+                    // Arrêter et supprimer les conteneurs
+                    sh """
+                        docker stop ${MS1_CONTAINER} || true
+						docker stop ${MS2_CONTAINER} || true
+						docker stop ${MS3_CONTAINER} || true
+						
+                        docker rm ${ZIPKIN_CONTAINER_NAME} || true
+                    """
+                }
+            }
+        }
+		stage('Remove MS1_MS2_MS3 Containers ') {
+            steps {
+                script {
+                    // Arrêter et supprimer les conteneurs
+                    sh """
+                        docker rm ${MS1_CONTAINER} || true
+						docker rm ${MS2_CONTAINER} || true
+						docker rm ${MS3_CONTAINER} || true
+                    """
+                }
+            }
+        }
+		stage('Remove MS1_MS2_MS3 Images ') {
+            steps {
+                script {
+                    // Arrêter et supprimer les conteneurs
+                    sh """
+                        docker rmi ${MS1_IMAGE} || true
+						docker rmi ${MS2_IMAGE} || true
+						docker rmi ${MS3_IMAGE} || true
+                    """
+                }
+            }
+        }
+    }
+    post {
+//        always {
+//            sh """
+//            """
+//        }
+        success {
+            echo 'DONE !'
+        }
+        failure {
+            echo 'ECHEC'
+        }
+    }
+}
