@@ -2,27 +2,31 @@ version: '3.8'
 services:
   zipkin:
     image: openzipkin/zipkin:latest
+    container_name: zipkin
     networks:
       - my-app-network
     ports:
       - "9411:9411"
 
-  container-ms1:
+  gr-conf-zipkin-client-ms1:
     image: jihed123/gr-conf-zipkin-client-ms1:0.0.1-SNAPSHOT
+    container_name: container-ms1
     networks:
       - my-app-network
     ports:
       - "1111:1111"
 
-  container-ms2:
+  gr-conf-zipkin-client-ms2:
     image: jihed123/gr-conf-zipkin-client-ms2:0.0.1-SNAPSHOT
+    container_name: container-ms2
     networks:
       - my-app-network
     ports:
       - "1112:1112"
 
-  container-ms3:
+  gr-conf-zipkin-client-ms3:
     image: jihed123/gr-conf-zipkin-client-ms3:0.0.1-SNAPSHOT
+    container_name: container-ms3
     networks:
       - my-app-network
     ports:
@@ -30,4 +34,5 @@ services:
 
 networks:
   my-app-network:
+    name: my-app-network
     driver: bridge
