@@ -59,7 +59,7 @@ pipeline {
             echo 'DONE !'
         }
         failure {
-            echo 'ECHEC'
+            echo 'ECHEC !'
         }
     }
 }
