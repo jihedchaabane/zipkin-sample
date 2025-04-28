@@ -32,11 +32,11 @@ pipeline {
     post {
         always {
             // Clean up: Stop and remove services
-            script {
-                sh """
-                    docker-compose -f ${COMPOSE_FILE} down || true
-                """
-            }
+//            script {
+//                sh """
+//                    docker-compose -f ${COMPOSE_FILE} down || true
+//                """
+//            }
         }
     }
 }
