@@ -30,13 +30,19 @@ pipeline {
 //        }
     }
     post {
-        always {
+//        always {
             // Clean up: Stop and remove services
 //            script {
 //                sh """
 //                    docker-compose -f ${COMPOSE_FILE} down || true
 //                """
 //            }
+//        }
+		success {
+            echo 'docker-compose_run_ms1_ms2_ms3.yml executé avec succès !'
+        }
+        failure {
+            echo 'docker-compose_run_ms1_ms2_ms3.yml échoué !'
         }
     }
 }
