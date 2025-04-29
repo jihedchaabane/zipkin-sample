@@ -1,3 +1,4 @@
+WKS_ZIPKIN
 
 sudo systemctl start jenkins \
 sudo systemctl start docker \
